@@ -1,0 +1,154 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <title>IETL Documentation - iteration.h</title>
+                                                                        
+                             
+  <meta http-equiv="content-type"
+ content="text/html; charset=ISO-8859-1">
+</head>
+  <body>
+                        
+<h1>IETL library: iteration.h</h1>
+          The header<tt> ietl/iteration.h</tt> contains <br>
+ 
+<ul>
+   <li><a href="#The_basic_iteration_class_"><tt>basic_iteration</tt> for 
+the simple IETL algorithms</a>       </li>
+   <li><a href="#The_Lanczos_iteration_classes">three iteration control objects 
+for the Lanczos algorithm</a>     </li>
+ 
+</ul>
+ 
+<ul>
+             
+</ul>
+                 
+<h2><a name="The_basic_iteration_class_"></a>The <tt>basic_iteration</tt> 
+class<br>
+    </h2>
+     
+<h3>Synopsis</h3>
+             
+<pre>namespace ietl {<br>  <br>  template &lt;class T&gt;<br>  class basic_iteration {<br>  public:       <br>    basic_iteration(unsigned int max_iter, T reltol, T abstol = 0.);<br>    <br>    bool finished(T residual, T lambda);  <br>    bool converged(T residual, T lambda);<br>    <br>    void operator++();  <br><br>    unsigned int iterations();    <br>    unsigned int max_iterations();    <br>    T relative_tolerance();<br>    T absolute_tolerance();<br>    int error_code();    <br>  };</pre>
+     
+<h3>Member documentation</h3>
+   
+<pre>    basic_iteration(unsigned int max_iter, T reltol, T abstol = 0.)<br></pre>
+  The constructor takes three arguments: the maximum number of iterations 
+to be performed and the relative and absolute tolerances<br>
+   
+<pre>    bool finished(T residual, T lambda);  <br>    bool converged(T residual, T lambda);<br></pre>
+  Both these functions take the current residual ||Av-lambda v|| and the
+current  estimate of the eigenvalue lambda as arguments. <tt>converged</tt>
+returns  true if the residual is smaller than either the absolute tolerance
+or smaller  than the relative tolerance multiplied by <tt>lambda</tt>. <tt>finished</tt>
+ is true if either <tt>converged</tt> is true or the maximum number of iterations
+ has been exceeded.<br>
+   
+<pre>    void operator++();<br></pre>
+  increments the iteration counter.<br>
+   
+<pre>   unsigned int iterations();<br></pre>
+   
+<p>returns the number of iterations performed.<br>
+  </p>
+   
+<pre>    unsigned int max_iterations();    <br>    T relative_tolerance();<br>    T absolute_tolerance();<br></pre>
+  return the maximum number of iterations, and the relative and absolute
+tolerances  respectively.<br>
+   
+<pre>    int error_code();<br></pre>
+  returns 1 if the maximum number of iterations has been exceeded and 0 otherwise.<br>
+ <br>
+ 
+<h2><a name="The_Lanczos_iteration_classes"></a>The Lanczos iteration classes</h2>
+ 
+<h3>Synopsis</h3>
+ 
+<pre>&nbsp; template &lt;class T&gt;<br>  class <a
+ href="#The_fixed_lanczos_iteration_class">fixed_lanczos_iteration</a> {<br>  public:         <br>    fixed_lanczos_iteration(unsigned int max_iter);<br>        <br>    template &lt;class Tmatrix&gt;<br>    bool finished(const Tmatrix&amp; tmatrix) const;<br><br>    inline void operator++();   <br>  };<br><br>  template &lt;class T&gt;<br>  class <a
+ href="#The_lanczos_iteration_nhighest_and_class">lanczos_iteration_nlowest</a> {<br>  public:         <br>    lanczos_iteration_nlowest(unsigned int max_iter, unsigned int n= 1, <br>        T r = 100.*std::numeric_limits&lt;T&gt;::epsilon(), <br>        T a = 100.*std::numeric_limits&lt;T&gt;::epsilon());<br>        <br>    template &lt;class Tmatrix&gt;<br>    bool finished(const Tmatrix&amp; tmatrix) const;<br><br>    template &lt;class Tmatrix&gt;<br>    inline bool converged(const Tmatrix&amp; tmatrix);<br><br>    inline void operator++();   <br>    inline int error_code() const;  <br>    inline unsigned int iterations()  const;  <br>    inline unsigned int max_iterations() const;<br>    inline T relative_tolerance() const;<br>    inline T absolute_tolerance() const;  <br>  };<br>  <br>  template &lt;class T&gt;<br>  class <a
+ href="#The_lanczos_iteration_nhighest_and_class">lanczos_iteration_nhighest</a> {<br>  public:     <br>    <br>    lanczos_iteration_nhighest(unsigned int max_iter, unsigned int n= 1,<br>        T r = 100.*std::numeric_limits&lt;T&gt;::epsilon(), <br>        T a = 100.*std::numeric_limits&lt;T&gt;::epsilon())<br><br>    template &lt;class Tmatrix&gt;<br>    bool finished(const Tmatrix&amp; tmatrix) const;<br><br>    template &lt;class Tmatrix&gt;<br>    inline bool converged(const Tmatrix&amp; tmatrix);   <br> <br>    inline void operator++();   <br>    <br>    inline int error_code() const;  <br>    inline unsigned int iterations()  const;  <br>    inline unsigned int max_iterations() const;<br>    inline T relative_tolerance() const;<br>    inline T absolute_tolerance() const;  <br>  };<br>  <br><br></pre>
+ 
+<h3><a name="The_fixed_lanczos_iteration_class"></a>The <tt>fixed_lanczos_iteration</tt>
+class</h3>
+ is the simplest of the iteration classes, iterating for &nbsp;a fixed number 
+of iterations <br>
+ 
+<pre>    fixed_lanczos_iteration(unsigned int max_iter);<br></pre>
+ 
+<p>The number of iterations passed to the constructor is the number of iterations 
+that will be performed.</p>
+ 
+<pre>    template &lt;class Tmatrix&gt;<br>    bool finished(const Tmatrix&amp; tmatrix) const;<br></pre>
+ 
+<p>returns true after the required number of iterations has been performed.</p>
+ 
+<pre>    inline void operator++();   <br></pre>
+ 
+<p>increments the iteration count by one. This is usually only called by the
+IETL algorithms.<br>
+ <br>
+ </p>
+ 
+<h3><a name="The_lanczos_iteration_nhighest_and_class"></a>The <tt>lanczos_iteration_nhighest</tt>
+and <tt>lanczos_iteration_nlowest classes</tt></h3>
+ both iterate until a certain number of highest or lowest eigenvalues have 
+converged. Since they are very similar they will be discussed together.  
+     <br>
+ 
+<pre>  lanczos_iteration_nlowest(unsigned int max_iter, unsigned int n= 1, <br>        T r = 100.*std::numeric_limits&lt;T&gt;::epsilon(), <br>        T a = 100.*std::numeric_limits&lt;T&gt;::epsilon());<br><br>  lanczos_iteration_nhighest(unsigned int max_iter, unsigned int n= 1, <br>        T r = 100.*std::numeric_limits&lt;T&gt;::epsilon(), <br>        T a = 100.*std::numeric_limits&lt;T&gt;::epsilon());<br></pre>
+ 
+<p>are the constructors and take the following arguments:<br>
+ </p>
+ 
+<ul>
+   <li><tt>max_iter</tt>, the maximum number of iterations</li>
+   <li><tt>n</tt> the number of eigenvalues to calculate fully converged</li>
+   <li><tt>r</tt> the relative error tolerance</li>
+   <li><tt>a</tt> the absolute error tolerance</li>
+ 
+</ul>
+ 
+<pre>  template &lt;class Tmatrix&gt;<br>  bool finished(const Tmatrix&amp; tmatrix) const;<br><br>  template &lt;class Tmatrix&gt;<br>  inline bool converged(const Tmatrix&amp; tmatrix);<br></pre>
+ 
+<p>both these functions take a <i>T</i>-matrix of the <a
+ href="lanczos.html">Lanczos algorithm</a> as argument and check whether the
+<i>n</i> highest or lowest eigenvalues have converged. <tt>converged</tt> returns
+true if they have converged. <tt>finished</tt> returns true either if they
+have converged or if the maximum number of iterations has been exceeded.<br>
+ </p>
+ 
+<pre>     void operator++();<br></pre>
+ 
+<p>increments the iteration counter.</p>
+ 
+<pre><br>   unsigned int iterations();<br></pre>
+ 
+<p>returns the number of iterations performed.<br>
+  </p>
+ <tt>&nbsp; unsigned int max_iterations();    <br>
+     &nbsp; T relative_tolerance();<br>
+     &nbsp; T absolute_tolerance();</tt><br>
+ <br>
+  return the maximum number of iterations, and the relative and absolute
+tolerances  respectively.<br>
+ <tt><br>
+ &nbsp; int error_code();</tt><br>
+ <br>
+ returns 1 if the maximum number of iterations has been exceeded and 0 otherwise. 
+ 
+<hr width="100%" size="2">                  
+<div align="center">        
+<address>copyright 2002-2004 by <a href="http://www.itp.phys.ethz.ch/staff/troyer/">Matthias Troyer</a> and <a href="http://www.itp.phys.ethz.ch/staff/prakash/">Prakash Dayal</a><br>
+  </address>
+  </div>
+           <br>
+          <br>
+      <br>
+    <br>
+  <br>
+ 
+</body>
+</html>

@@ -1,0 +1,4 @@
+inverse1.o inverse1 inverse1_mpi inverse1_pvm: $(srcdir)/solver.h
+inverse2.o inverse2 inverse2_mpi inverse2_pvm: $(srcdir)/solver.h
+rayleigh1.o rayleigh1 rayleigh1_mpi rayleigh1_pvm: $(srcdir)/solver.h
+rayleigh2.o rayleigh2 rayleigh2_mpi rayleigh2_pvm: $(srcdir)/solver.h

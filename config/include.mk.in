@@ -1,0 +1,83 @@
+###########################################################################
+# IETL library
+#
+# config/include.mk.in
+#
+# $Id: include.mk.in,v 1.1 2003/09/01 10:17:43 troyer Exp $
+#
+# Copyright (C) 1994-2003 by Matthias Troyer <troyer@comp-phys.org>,
+#                            Synge Todo <wistaria@comp-phys.org>,
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+###########################################################################
+
+# shell
+
+SHELL = @SHELL@
+
+# path
+
+prefix = @prefix@
+exec_prefix = @exec_prefix@
+bindir = @bindir@
+datadir = @datadir@
+libdir = @libdir@
+includedir = @includedir@
+
+# Makefiles
+
+INCLUDE_MK = $(datadir)/@PACKAGE_NAME@/include.mk
+RULES_MK = $(datadir)/@PACKAGE_NAME@/rules.mk
+RULES_LIB_MK = $(datadir)/@PACKAGE_NAME@/rules-lib.mk
+
+# installer
+
+INSTALL = @IETL_INSTALL@
+INSTALL_PROGRAM = @INSTALL_PROGRAM@
+INSTALL_SCRIPT = @INSTALL_SCRIPT@
+INSTALL_DATA = @INSTALL_DATA@
+INSTALL_LIB = $(INSTALL_DATA)
+INSTALL_HEADER = $(INSTALL_DATA)
+install_sh = $(bindir)/install-sh
+mkinstalldirs = $(SHELL) $(bindir)/mkinstalldirs
+
+# tools
+
+AR = @AR@
+ARXX = @ARXX@
+LN_S = @LN_S@
+MAKEDEPEND = makedepend
+MAKEDEPEND_PL = perl $(bindir)/makedepend.pl
+RANLIB = @RANLIB@
+
+# for Boost and base
+
+BASE_CPPFLAGS = @BASE_CPPFLAGS@ @BOOST_FLAGS@ @BOOSTSANDBOX_FLAGS@ @BLITZ_FLAGS@
+BASE_LDFLAGS = @BASE_LDFLAGS@ @LAPACK_LDFLAGS@ @BLITZ_LDFLAGS@
+BASE_LIBS = @LAPACK_LIBS@ @BLITZ_LIBS@ @BASE_LIBS@ 
+
+# C/C++ compiler
+
+COMPILER = @COMPILER@
+
+CC = @CC@
+CFLAGS = @CFLAGS@
+
+CXX = @CXX@
+CXXFLAGS = @CXXFLAGS@ 
+
+CPP = @CPP@
+CXXCPP = @CXXCPP@
+
+CPPFLAGS = $(BASE_CPPFLAGS) -I$(includedir)
+LDFLAGS = $(BASE_LDFLAGS) -L$(libdir)
+LIBS = $(BASE_LIBS)

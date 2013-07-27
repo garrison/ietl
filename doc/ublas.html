@@ -1,0 +1,18 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0056)http://www.itp.phys.ethz.ch/staff/prakash/doc/ublas.html -->
+<HTML><HEAD><TITLE>IETL Documentation - interface/ublas.h</TITLE>
+<META http-equiv=content-type content="text/html; charset=ISO-8859-1">
+<META content="MSHTML 6.00.2800.1400" name=GENERATOR></HEAD>
+<BODY>
+<H1>IETL library: interface/ublas.h</H1>This header implements the functions 
+required for the IETL for uBLAS vectors and matrices 
+<UL></UL>
+<H3>Synopsis</H3><PRE>namespace ietl {<BR><BR>  template &lt;class T, class Gen&gt; <BR>  void generate(boost::numeric::ublas::vector&lt;T&gt;&amp; c, Gen&amp; gen);<BR><BR>  template &lt;class T, class S&gt;<BR>  T dot(const boost::numeric::ublas::vector&lt;T,S&gt;&amp; x, const boost::numeric::ublas::vector&lt;T,S&gt;&amp; y);<BR><BR>  template &lt; class T&gt;<BR>  typename number_traits&lt;T&gt;::magnitude_type two_norm(boost::numeric::ublas::vector&lt;T&gt;&amp; x);<BR><BR>  template &lt; class T&gt;<BR>  void copy(const boost::numeric::ublas::vector&lt;T&gt;&amp; x,boost::numeric::ublas::vector&lt;T&gt;&amp; y);<BR><BR>  template &lt;class M, class T&gt;<BR>  inline void mult(M&amp; m, const boost::numeric::ublas::vector&lt;T&gt;&amp; x, boost::numeric::ublas::vector&lt;T&gt;&amp; y);<BR> <BR>}<BR></PRE>
+<HR width="100%" SIZE=2>
+
+<DIV align=center>
+<ADDRESS>copyright 2002-2004 by <a href="http://www.itp.phys.ethz.ch/staff/troyer/">Matthias Troyer</a> and <a href="http://www.itp.phys.ethz.ch/staff/prakash/">Prakash 
+Dayal</a><BR>
+</ADDRESS></DIV><BR>
+<BR>
+<BR><BR></BODY></HTML>

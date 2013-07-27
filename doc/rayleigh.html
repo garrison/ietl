@@ -1,0 +1,52 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0059)http://www.itp.phys.ethz.ch/staff/prakash/doc/rayleigh.html -->
+<HTML><HEAD><TITLE>IETL Documentation - rayleigh.h</TITLE>
+<META http-equiv=content-type content="text/html; charset=ISO-8859-1">
+<META content="MSHTML 6.00.2800.1400" name=GENERATOR></HEAD>
+<BODY>
+<H1>IETL library: rayleigh.h</H1>This header implements the Rayleigh quotients 
+method, discussed, e.g. in Reference [<A 
+href="http://www.cs.ucdavis.edu/%7Ebai/ET/contents.html">2</A>]. 
+Similar to inverse iteration, Rayleigh quotients iteration relies on a fast way 
+to solve a linear equation with the matrix <TT>A-rho*I</TT>, where I is the 
+identity matrix, A the matrix of which an eigenvalue is desired, and 
+<TT>rho</TT> is the latest guess for the eigenvalue. Inverse iteration often, 
+but not always, converges to the eigenvalue closest to the initial guess given 
+by the starting vector. 
+<UL></UL>
+<H2>Documentation</H2>
+<H3>The Rayleigh quotients iteration function <TT>rayleigh</TT><BR></H3><PRE>namespace ietl {<BR>  <BR>  template &lt;class MATRIX, class GEN, class IT, class VS&gt;<BR>  std::pair&lt;typename vectorspace_traits&lt;VS&gt;::magnitude_type, <BR>            typename vectorspace_traits&lt;VS&gt;::vector_type&gt;<BR>    rayleigh(const MATRIX&amp; matrix, GEN&amp; gen, const SOLVER&amp; solver, ITER&amp; iter, const VS&amp; vec);<BR><BR>}<BR></PRE>
+The 
+<tt>rayleigh</tt> function takes five arguments:<BR>
+<UL>
+  <LI>The matrix <TT>m</TT> 
+  <LI>A generator <TT>start</TT> which is used to create the starting vector of 
+  the iteration 
+  <LI>a linear solver <TT>solver</TT>, discussed in detail <A 
+  href="rayleigh.html#The_linear_solver">below</A><BR>
+  <LI>The iteration control object <TT>iter</TT> 
+  <LI>The vector space object <TT>vec</TT> </LI></UL>It returns a pair consisting 
+of the last estimate for an eigenvalue and the corresponding eigenvector.<BR>
+<H3><A name=The_linear_solver></A>The linear solver</H3>Inverse iteration relies 
+on the user to provide a fast solver for the system of linear equations given 
+by<BR><BR>
+<DIV align=center><TT>(matrix - rho * I) y = v</TT><BR><BR>
+<DIV align=left>Given the <TT>matrix</TT> of which an eigenvalue is desired, the 
+latest guess for the eigenvalue <TT>rho</TT>, and a right hand side <TT>v</TT>, 
+the solution <TT>y</TT> needs to be calculated in a fast way. This part of the 
+code is time-critical as it is called at each iteration. To solve above 
+equation, a function object <TT>solver</TT> needs to be passed, which is called 
+as<BR>
+<PRE>  solver(matrix,rho,v,y)<BR></PRE>The matrix stays the same throughout the 
+iteration and is the same as passed to <TT>inverse</TT>. This can (and should) 
+be used by the solver to optimize the calculation.<BR><BR>If <TT>&nbsp;(matrix - 
+rho * I)</TT>&nbsp; is singular an exception should be thrown which will 
+terminate the iterations.<BR><BR></DIV></DIV>
+<HR width="100%" SIZE=2>
+<BR>
+<DIV align=center>
+<ADDRESS>copyright 2002-2004 by <a href="http://www.itp.phys.ethz.ch/staff/troyer/">Matthias Troyer</a> and <a href="http://www.itp.phys.ethz.ch/staff/prakash/">Prakash 
+Dayal</a><BR>
+</ADDRESS></DIV>
+<p>&nbsp;</p>
+</BODY></HTML>

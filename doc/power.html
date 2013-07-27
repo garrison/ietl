@@ -1,0 +1,35 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0056)http://www.itp.phys.ethz.ch/staff/prakash/doc/power.html -->
+<HTML><HEAD><TITLE>IETL Documentation - power.h</TITLE>
+<META http-equiv=content-type content="text/html; charset=ISO-8859-1">
+<META content="MSHTML 6.00.2800.1400" name=GENERATOR></HEAD>
+<BODY>
+<H1>IETL library: power.h</H1>
+<p>This header implements the power method, the 
+simplest iterative eigenvalue algorithm, discussed, e.g. in Reference [<A 
+href="http://www.cs.ucdavis.edu/%7Ebai/ET/contents.html">2</A>].&nbsp;</p>
+<p>&nbsp; </p>
+<H2>Documentation</H2><PRE>namespace ietl {<BR>  <BR>  template &lt;class MATRIX, class GEN, class IT, class VS&gt;<BR>  std::pair&lt;typename vectorspace_traits&lt;VS&gt;::scalar_type, <BR>            typename vectorspace_traits&lt;VS&gt;::vector_type&gt;<BR>    power(const MATRIX&amp; m, GEN&amp; start, IT&amp; iter, const VS&amp; vec);<BR><BR>}<BR></PRE>The 
+<TT>power</TT> function takes four arguments:<BR>
+<UL>
+  <LI>The matrix <TT>m</TT> 
+  <LI>A generator <TT>start</TT> which is used to create the starting vector of 
+  the iteration 
+  <LI>The iteration control object <TT>iter</TT> 
+  <LI>The vector space object <TT>vec</TT> </LI></UL>It returns a pair consisting 
+of the last estimate for the eigenvalue with largest absolute value and the 
+corresponding eigenvector.<BR>
+<H2>Implementation</H2>
+The implementation of the power method is so simple that 
+we show it here as an example of how the IETL is implemented. The implementation 
+closely follows the algorithmic template in the templates book [<A 
+href="http://www.cs.ucdavis.edu/%7Ebai/ET/contents.html">2</A>].<BR>
+<PRE>    typedef typename vectorspace_traits&lt;VS&gt;::vector_type vector_type;<BR>    typedef typename vectorspace_traits&lt;VS&gt;::scalar_type scalar_type; <BR>    typedef typename vectorspace_traits&lt;VS&gt;::magnitude_type magnitude_type; <BR><BR>    vector_type vec1 = new_vector(vec);<BR>    ietl::generate(vec1,start);<BR>    project(vec1,vec);<BR>   <BR>    vector_type vec2 = new_vector(vec);     <BR>    scalar_type lambda;<BR>   <BR>    magnitude_type residual; <BR><BR>    do {<BR>      ietl::mult(m,vec1,vec2);<BR>      lambda = ietl::dot(vec1,vec2);<BR>      vec1 *= -lambda;<BR>      vec1+=vec2;<BR>      residual = ietl::two_norm(vec1); <BR>      vec1=(1./ietl::two_norm(vec2))*vec2;  <BR>      ++iter;<BR>    } while(!iter.finished(residual,lambda)); <BR>   <BR>    return std::make_pair(lambda,vec1);<BR>  <BR></PRE>
+<HR width="100%" SIZE=2>
+
+<DIV align=center>
+<ADDRESS>copyright 2002-2004 by <a href="http://www.itp.phys.ethz.ch/staff/troyer/">Matthias Troyer</a> and <a href="http://www.itp.phys.ethz.ch/staff/prakash/">Prakash 
+Dayal</a><BR>
+</ADDRESS></DIV>
+<p>&nbsp;</p>
+</BODY></HTML>

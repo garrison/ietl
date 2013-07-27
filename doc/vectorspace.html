@@ -1,0 +1,44 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0062)http://www.itp.phys.ethz.ch/staff/prakash/doc/vectorspace.html -->
+<HTML><HEAD><TITLE>IETL Documentation - vectorspace.h</TITLE>
+<META http-equiv=content-type content="text/html; charset=ISO-8859-1">
+<META content="MSHTML 6.00.2800.1400" name=GENERATOR></HEAD>
+<BODY>
+<H1>IETL library: vectorspace.h</H1>The header vectorspace.h contains two vector 
+space classes that should be sufficient for most applications:<BR>
+<UL>
+  <LI>default implementations of the necessary vector space <A 
+  href="vectorspace.html#functions">functions</A><BR>
+  <LI><A 
+  href="vectorspace.html#vectorspace"><TT>vectorspace</TT></A> 
+  implements the vector space functionality for any standard container 
+  <LI><A 
+  href="vectorspace.html#wrapper_vectorspace"><TT>wrapper_</TT><TT>vectorspace</TT></A> 
+  uses a <A 
+  href="vectorspace.html#vector_wrapper"><TT>vector_wrapper</TT></A> 
+  around any standard container, designed for return value optimization. 
+</LI>
+</UL>
+<H2><A name=functions></A>The vector space functions</H2>The vector space header 
+provides default implementations for the three functions required of a vector 
+space, by forwarding to a member of the same name:<BR><PRE>namespace ietl {<BR><BR>  template &lt;class VS&gt;<BR>  typename ietl::vectorspace_traits&lt;VS&gt;::vector_type new_vector(const VS&amp; vs) <BR>  {<BR>    return vs.new_vector();<BR>  }<BR><BR>  template &lt;class VS&gt;<BR>  typename ietl::vectorspace_traits&lt;VS&gt;::size_type vec_dimension(const VS&amp; vs) <BR>  {<BR>    return vs.vec_dimension();<BR>  }<BR> <BR>  <BR>  template&lt;class VS&gt;<BR>  void project(typename ietl::vectorspace_traits&lt;VS&gt;::vector_type&amp; v, const VS&amp; vs) <BR>  {<BR>    vs.project(v);<BR>  }<BR><BR>}<BR></PRE>
+<H2><A name=vectorspace></A>The <TT>vectorspace</TT> class</H2>
+<P>The <TT>vectorspace</TT> class implements the required vector space 
+functionality for any standard container.</P><PRE>namespace ietl {<BR>  template&lt;class V&gt;<BR>  class vectorspace {<BR>  public:<BR>    typedef V vector_type;<BR>    typedef typename V::value_type scalar_type;<BR>    typedef typename V::size_type size_type;<BR>    <BR>    vectorspace(size_type n);<BR><BR>    size_type vec_dimension() const;<BR>    vector_type new_vector() const;<BR>    void project(vector_type&amp;) const {}<BR>   };<BR>}<BR></PRE>
+<H2><A name=vector_wrapper></A>The <TT>vector_wrapper</TT> class</H2>The 
+<TT>vector_wrapper</TT> class is provided for standard containers that do not 
+provide return value optimization. It stores a <TT>boost::shared_pointer</TT> 
+smart pointer to the vector and forwards all the functions and operators 
+necessary for the IETL to the actual vector. This speeds up returning 
+eigenvectors from the IETL functions.<BR><PRE>namespace ietl {<BR><BR>  template &lt;class V&gt;<BR>  class vector_wrapper : public boost::shared_ptr&lt;V&gt; {<BR>    public:<BR>    vector_wrapper(V* p) : boost::shared_ptr&lt;V&gt;(p) {}<BR>    operator V&amp; ();<BR>    operator const V&amp; () const;<BR><BR>    ...<BR>  };<BR>}<BR></PRE>
+<H2><A name=wrapper_vectorspace></A>The <TT>wrapper_vectorspace</TT> 
+class</H2>is a vector space implementation using the <TT>vector_wrapper</TT> 
+class:<BR><PRE>namespace ietl {<BR><BR>  template&lt;class V&gt; class wrapper_vectorspace {<BR>  public:<BR>    typedef vector_wrapper&lt;V&gt; vector_type;<BR>    typedef typename V::value_type scalar_type;<BR>    typedef typename V::size_type size_type;<BR>    <BR>    wrapper_vectorspace(size_type n):n_(n){}<BR>    <BR>    size_type vec_dimension() const;<BR>    vector_type new_vector() const;<BR>    void project(vector_type&amp; src) const {}<BR>  };<BR><BR></PRE>
+<HR width="100%" SIZE=2>
+<BR><BR>
+<DIV align=center>
+<ADDRESS>copyright 2002-2004 by <a href="http://www.itp.phys.ethz.ch/staff/troyer/">Matthias Troyer</a> and <a href="http://www.itp.phys.ethz.ch/staff/prakash/">Prakash 
+Dayal<BR>
+</a>
+</ADDRESS></DIV>
+<BR></BODY></HTML>

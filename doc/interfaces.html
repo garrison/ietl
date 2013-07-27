@@ -1,0 +1,276 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0061)http://www.itp.phys.ethz.ch/staff/prakash/doc/interfaces.html -->
+<HTML><HEAD><TITLE>IETL Documentation - concepts and interfaces</TITLE>
+<META http-equiv=content-type content="text/html; charset=ISO-8859-1">
+<META content="MSHTML 6.00.2800.1400" name=GENERATOR></HEAD>
+<BODY>
+<H1>IETL Concepts and Interfaces</H1>Here we define the requirements on the 
+types necesary to use the IETL algorithms:<BR>
+<UL>
+  <LI><A 
+  href="#vectorspace">The 
+  vector space</A> 
+  <LI><A 
+  href="#matrix">The 
+  matrix</A> 
+  <LI><A 
+  href="#iteration">The 
+  vector</A> 
+  <LI><A 
+  href="#iteration">The 
+  iteration control</A> 
+  <LI><A 
+  href="#Requirements_on_the_Lanczos_iteration">The 
+  Lanczos iteration control</A><BR>
+  </LI></UL>
+<H2><A name=vectorspace></A>The vector space concept</H2>
+Linear eigensolvers 
+mathematically rely on the concept of a vectorspace, which also defines the 
+necessary functionality for the IETL. Going beyond the <A 
+href="http://www.osl.iu.edu/research/itl/">ITL</A> we expand on the concept of a 
+vectorspace and find the necessity to require a vector space class to be passed 
+to the algorithms. Let<BR>
+<UL>
+  <LI><TT>VS</TT> be a class modeling the concept of vectorspace 
+  <LI><TT>vs</TT> be an object of type <TT>VS</TT> </LI></UL>then the following 
+types have to be defined:<BR><BR>
+<TABLE cellSpacing=2 cellPadding=2 width="100%" border=1>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><B>Type</B><BR></TD>
+    <TD vAlign=top><B>Documentation</B><BR></TD></TR>
+  <TR>
+    <TD 
+    vAlign=top><TT>ietl::vectorspace_traits&lt;VS&gt;::vector_type<BR></TT></TD>
+    <TD vAlign=top>the type of vectors in the vector space<BR></TD></TR>
+  <TR>
+    <TD 
+    vAlign=top><TT>ietl::vectorspace_traits&lt;VS&gt;::scalar_type<BR></TT></TD>
+    <TD vAlign=top>the type of scalars in the vector space<BR></TD></TR>
+  <TR>
+    <TD 
+      vAlign=top><TT>ietl::vectorspace_traits&lt;VS&gt;::magnitude_type</TT><BR></TD>
+    <TD vAlign=top>a scalar type appropriate for storing norms, usually the 
+      same as <TT>scalar_type</TT> for real types, or the corresponding real 
+      type for complex types.<BR></TD></TR>
+  <TR>
+    <TD 
+    vAlign=top><TT>ietl::vectorspace_traits&lt;VS&gt;::size_type<BR></TT></TD>
+    <TD vAlign=top>an integral type large enough to store the dimension of the 
+      vector space<BR></TD></TR></TBODY></TABLE><BR>and the following expression have 
+to be defined for the vector space object:<BR><BR>
+<TABLE cellSpacing=2 cellPadding=2 width="100%" border=1>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><B>Expression<BR></B></TD>
+    <TD vAlign=top><B>return type<BR></B></TD>
+    <TD vAlign=top><B>Documentation</B><BR></TD></TR>
+  <TR>
+    <TD vAlign=top><TT>new_vector(vs)</TT><BR></TD>
+    <TD 
+      vAlign=top><TT>ietl::vectorspace_traits&lt;VS&gt;<VS>::vector_type</VS></TT> 
+    </TD>
+    <TD vAlign=top>creates a new vector of the vector space<BR></TD></TR>
+  <TR>
+    <TD vAlign=top><TT>vec_dimension(vs)</TT><BR></TD>
+    <TD 
+    vAlign=top><TT>ietl::vectorspace_traits&lt;VS&gt;::size_type</TT><BR></TD>
+    <TD vAlign=top>returns the dimension of the vector space<BR></TD></TR>
+  <TR>
+    <TD vAlign=top><TT>project(x,vs)</TT><BR></TD>
+    <TD vAlign=top><TT>void</TT><BR></TD>
+    <TD vAlign=top>projects the vector <TT>x</TT> into the vector space. 
+    <BR></TD></TR></TBODY></TABLE><BR>The <TT>new_vector</TT> function is necessary 
+since we do not know the types and number of arguments needed for the 
+constructor of a vector. The <A 
+href="http://www.osl.iu.edu/research/itl/">ITL</A> assumes there is a 
+constructor taking only the vector size as argument but this is insufficient in 
+cases where more than the size is needed in the constructor, such as:<BR>
+<UL>
+  <LI>multi-dimensional arrays 
+  <LI>distributed arrays taking additional information, requiring as the data 
+  layout in the constructor </LI></UL>The <TT>project</TT> function is required if 
+the actual vector space is a subspace of the representation space. E.g. if 
+special boundary conditions are imposed on an array.<BR><BR>For the most common 
+case, where the vector models the concept of an STL Container we provide two 
+model implementations: <TT><A 
+href="vectorspace.html">vectorspace</A></TT> 
+and <A 
+href="vectorspace.html#wrapper_vectorspace"><TT>wrapper_vectorspace</TT></A>.<BR>
+<BR>
+<H2><A name=matrix></A>Requirements on the matrix</H2>Iterative algorithms 
+require the matrix (linear operator) of which eigenvalues and eigenvectors are 
+to be calculated only in the form of matrix-vector products. Hence only a single 
+function is required. Let <BR>
+<UL>
+  <LI><TT>VS</TT> be a class modeling the concept of vectorspace 
+  <LI>x,y&nbsp; be an vectors in the vector space ( of 
+  type&nbsp;<TT>ietl::vectorspace_traits&lt;VS&gt;<VS>::vector_type</VS></TT> 
+  <LI><TT>a</TT>&nbsp;be the matrix </LI></UL>then the following expression needs 
+to be defined<TT><VS></VS></TT><BR><BR>
+<TABLE cellSpacing=2 cellPadding=2 width="100%" border=1>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><B>Expression<BR></B></TD>
+    <TD vAlign=top><B>return type<BR></B></TD>
+    <TD vAlign=top><B>Documentation</B><BR></TD></TR>
+  <TR>
+    <TD vAlign=top><TT>ietl::mult(a,x,y)</TT><BR></TD>
+    <TD vAlign=top><TT>void<VS></VS></TT> </TD>
+    <TD vAlign=top>calculates the matrix-vector product 
+y=a*x<BR></TD></TR></TBODY></TABLE><BR>
+For all uBlas matrix types, the 
+<TT>ietl::mult</TT> function with <TT>boost::numeric:ublas::vector</TT> as 
+vector type is implemented in the header <A 
+href="ublas.html">ietl/interface/ublas.h</A> 
+. <BR>
+<H2><A name=vector></A>Requirements on the vector</H2>The vector type needs to 
+fulfill the following requirements.<BR>
+<UL>
+  <LI><TT>VS</TT> be a class modeling the concept of vectorspace 
+  <LI><TT>V</TT> be the type 
+  <TT>ietl::vectorspace_traits&lt;VS&gt;<VS>::vector_type</VS></TT> 
+  <LI><TT>S</TT> be the type 
+  <TT>ietl::vectorspace_traits&lt;VS&gt;<VS>::scalar_type</VS></TT> 
+  <LI><TT>M</TT> be the 
+  type&nbsp;<TT>ietl::vectorspace_traits&lt;VS&gt;<VS>::</VS></TT><VS></VS><TT><VS>magnitude_type</VS></TT><VS></VS> 
+
+  <LI><TT><VS></VS>x</TT>, <TT>y</TT>&nbsp; be a vectors in the vector space, of 
+  type <TT>V<VS></VS></TT> 
+  <LI><TT>t</TT>&nbsp;be a scalar, of type <TT>S</TT> 
+  <LI><TT>g</TT> be a model of a generator producing values of type 
+  <TT>S</TT><BR></LI></UL>Then the following expressions need to be defined for 
+all IETL algorithms.<BR><BR>
+<TABLE cellSpacing=2 cellPadding=2 width="100%" border=1>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><B>Expression<BR></B></TD>
+    <TD vAlign=top><B>return type<BR></B></TD>
+    <TD vAlign=top><B>Documentation</B><BR></TD></TR>
+  <TR>
+    <TD vAlign=top><TT>ietl::generate(x,g)</TT><BR></TD>
+    <TD vAlign=top><TT>void<VS></VS></TT> </TD>
+    <TD vAlign=top>fills the vector <TT>x</TT> with numbers from the generator 
+      g. For a standard container this can be implemented as<TT> 
+      std::generate(x.begin(),x.end(),g);</TT><BR></TD></TR>
+  <TR>
+    <TD vAlign=top><TT>std::swap(x,y)</TT><BR></TD>
+    <TD vAlign=top><TT>void</TT><BR></TD>
+    <TD vAlign=top>swaps the two vectors <TT>x</TT> and <TT>y</TT><BR></TD></TR>
+  <TR>
+    <TD vAlign=top><TT>ietl::dot(x,y)</TT><BR></TD>
+    <TD vAlign=top><TT>S</TT><BR></TD>
+    <TD vAlign=top>calculates the scalar product of the two vectors <TT>x</TT> 
+      and <TT>y</TT>.<BR></TD></TR>
+  <TR>
+    <TD vAlign=top><TT>ietl::two_norm(x)</TT><BR></TD>
+    <TD vAlign=top><TT>M</TT><BR></TD>
+    <TD vAlign=top>calculates the 2-norm of the vector <TT>x</TT>. This is 
+      equivalent to <TT>sqrt(ietl::dot(x,x))</TT>.<BR></TD></TR>
+  <TR>
+    <TD vAlign=top><TT>ietl::copy(x,y)</TT><BR></TD>
+    <TD vAlign=top><TT>void</TT><BR></TD>
+    <TD vAlign=top>a deep copy <TT>y = x</TT>. Modifications of <TT>x</TT> 
+      after the call are not allowed to modify <TT>y</TT>.<BR></TD></TR>
+  <TR>
+    <TD vAlign=top><TT>y = x</TT><BR></TD>
+    <TD vAlign=top><TT>const V&amp;</TT><BR></TD>
+    <TD vAlign=top>a (possibly shallow) copy<BR></TD></TR>
+  <TR>
+    <TD vAlign=top><TT>x *= t</TT><BR></TD>
+    <TD vAlign=top><TT>const&nbsp;V&amp;</TT><BR></TD>
+    <TD vAlign=top><BR></TD></TR>
+  <TR>
+    <TD vAlign=top><TT>x /= t</TT><BR></TD>
+    <TD vAlign=top><TT>const V&amp;</TT><BR></TD>
+    <TD vAlign=top><BR></TD></TR>
+  <TR>
+    <TD vAlign=top><TT>x += y</TT><BR></TD>
+    <TD vAlign=top><TT>const V&amp;</TT><BR></TD>
+    <TD vAlign=top><BR></TD></TR>
+  <TR>
+    <TD vAlign=top><TT>x += t*y</TT><BR></TD>
+    <TD vAlign=top><TT>const V&amp;</TT><BR></TD>
+    <TD vAlign=top><BR></TD></TR>
+  <TR>
+    <TD vAlign=top><TT>x -= t*y</TT><BR></TD>
+    <TD vAlign=top><TT>const V&amp;</TT><BR></TD>
+    <TD vAlign=top><BR></TD></TR>
+  <TR>
+    <TD vAlign=top><TT>x = t*y</TT><BR></TD>
+    <TD vAlign=top><TT>const&nbsp;V&amp;</TT><BR></TD>
+    <TD vAlign=top><BR></TD></TR></TBODY></TABLE><BR>The necessary functions are 
+implemented in the header <A 
+href="ublas.html">ietl/interface/ublas.h</A> 
+for ublas vectors, and in <A 
+href="blitz.html">ietl/interface/blitz.h</A> 
+for Blitz++ arrays.<BR>
+<BR>
+<H2><A name=iteration></A>Requirements on the standard iteration control 
+object</H2>
+Iterative algorithms run until the desired accuracy is reached. To 
+control the termination of the iteration, the IETL algorithms take an iteration 
+control object. Let <TT>it</TT> be the iteration control object, <TT>lambda</TT> 
+the best estimate for the eigenvalue and residual be the residual ||A v - lambda 
+v|| then the following expressions need to be defined:<BR>
+<BR>
+<TABLE cellSpacing=2 cellPadding=2 width="100%" border=1>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><B>Expression<BR></B></TD>
+    <TD vAlign=top><B>return type<BR></B></TD>
+    <TD vAlign=top><B>Documentation</B><BR></TD></TR>
+  <TR>
+    <TD vAlign=top><TT>++it</TT><BR></TD>
+    <TD vAlign=top><TT>void<VS></VS></TT> </TD>
+    <TD vAlign=top>is called at the start of a new iteration<BR></TD></TR>
+  <TR>
+    <TD vAlign=top><TT>it.finished(residual, lambda)</TT><BR></TD>
+    <TD vAlign=top><TT>bool</TT><BR></TD>
+    <TD vAlign=top>returns <TT>true</TT> if the desired accuracy is reached 
+      and the iteration can be terminated, returns <TT>false</TT> otherwise. 
+      <TT>residual</TT> and <TT>lambda</TT> are of the <TT>magnitude_type</TT> 
+      and are the residual and and latest estimate of the eigenvalue 
+      respectively<BR></TD></TR></TBODY></TABLE>
+<UL></UL>A model implementation <TT>basic_iteration </TT>is provided in <A 
+href="iteration.html">ietl/iteration.h</A>. 
+<BR>
+<BR>Some algorithms require more complex iteration control objects. They 
+will be discussed with the algorithms.<BR>
+<H2><A name=Requirements_on_the_Lanczos_iteration></A>Requirements on the 
+Lanczos iteration control object</H2>
+Iterative algorithms run until the desired 
+accuracy is reached. To control the termination of the iteration, the IETL 
+algorithms take an iteration control object. Let <TT>it</TT> be the iteration 
+control object, <TT>lambda</TT> the best estimate for the eigenvalue and 
+residual be the residual ||A v - lambda v|| then the following expressions need 
+to be defined:<BR>
+<BR>
+<TABLE cellSpacing=2 cellPadding=2 width="100%" border=1>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><B>Expression<BR></B></TD>
+    <TD vAlign=top><B>return type<BR></B></TD>
+    <TD vAlign=top><B>Documentation</B><BR></TD></TR>
+  <TR>
+    <TD vAlign=top><TT>++it</TT><BR></TD>
+    <TD vAlign=top><TT>void<VS></VS></TT> </TD>
+    <TD vAlign=top>is called at the start of a new iteration<BR></TD></TR>
+  <TR>
+    <TD vAlign=top><TT>it.finished(tmatrix)</TT><BR></TD>
+    <TD vAlign=top><TT>bool</TT><BR></TD>
+    <TD vAlign=top>returns <TT>true</TT> if the desired accuracy is reached 
+      and the iteration can be terminated, returns <TT>false</TT> otherwise. 
+      The<I> T</I>-matrix of the Lanczos iterations is passed as 
+    argument.<BR></TD></TR></TBODY></TABLE><BR>Model implementation are provided in 
+<A 
+href="iteration.html">ietl/iteration.h</A>. 
+<BR>
+<BR>Some algorithms require more complex iteration control objects. They 
+will be discussed with the algorithms.<BR><BR>
+<HR width="100%" SIZE=2>
+<BR>
+<DIV align=center>
+<ADDRESS>copyright 2002-2004 by <a href="http://www.itp.phys.ethz.ch/staff/troyer/">Matthias Troyer</a> and <a href="http://www.itp.phys.ethz.ch/staff/prakash/">Prakash 
+Dayal</a><BR>
+</ADDRESS></DIV><BR><BR></BODY></HTML>

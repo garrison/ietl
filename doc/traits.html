@@ -1,0 +1,20 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0057)http://www.itp.phys.ethz.ch/staff/prakash/doc/traits.html -->
+<HTML><HEAD><TITLE>IETL Documentation - traits.h</TITLE>
+<META http-equiv=content-type content="text/html; charset=ISO-8859-1">
+<META content="MSHTML 6.00.2800.1400" name=GENERATOR></HEAD>
+<BODY>
+<H1>IETL library: traits.h</H1>The header traits.h contains default 
+implementations of traits classes used by the IETL 
+<UL></UL>
+<H3>Synopsis</H3><PRE>namespace ietl {<BR>  <BR>  template &lt;class T&gt; struct number_traits {<BR>    typedef T magnitude_type;<BR>  };<BR>    <BR>  template &lt;class T&gt; struct number_trait&lt;std::complex&lt;T&gt; &gt; {<BR>    typedef T magnitude_type;<BR>  };<BR></STD::COMPLEX><BR> template <CLASS vs=""> struct vectorspace_traits {<BR>    typedef typename VS::vector_type vector_type;<BR>    typedef typename VS::size_type size_type;<BR>    typedef typename VS::scalar_type scalar_type;<BR>    typedef typename number_traits&lt;scalar_type&gt;::magnitude_type magnitude_type;<BR>   };<BR>    <BR> <CLASS t=""><CLASS t="">}</STD::COMPLEX></CLASS></CLASS></CLASS><BR></PRE>
+<P>The <TT>vectorspace_traits</TT> default implemenntation forwards all types to 
+member types with the same name.</P>
+<P>The <TT>number_traits</TT> traits class is used to determine the type for 
+storing the norm of a vector.</P><BR>
+<HR width="100%" SIZE=2>
+<BR>
+<DIV align=center>
+<ADDRESS>copyright 2002-2004 by <a href="http://www.itp.phys.ethz.ch/staff/troyer/">Matthias Troyer</a> and <a href="http://www.itp.phys.ethz.ch/staff/prakash/">Prakash 
+Dayal</a><BR>
+</ADDRESS></DIV><BR><BR><BR></BODY></HTML>

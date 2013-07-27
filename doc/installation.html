@@ -1,0 +1,98 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0046)http://www.itp.phys.ethz.ch/staff/prakash/doc/ -->
+<HTML><HEAD><TITLE>The Iterative Eigensolver Template Library</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1">
+<META content="MSHTML 6.00.2800.1400" name=GENERATOR><style type="text/css">
+<!--
+body {
+	background-image: url();
+}
+.style2 {color: #FF0000}
+-->
+</style></HEAD>
+<BODY>
+<H1 align="left">IETL Installation</H1>
+<p>We provide a <tt>configure</tt> script with the distribution which evaluates the system dependent variable and creates Makefiles.</p>
+<p>After unpacking the ietl-version.tar.gz,</p>
+<blockquote>
+<pre>tar -zxvf ietl-version.tar.gz</pre></blockquote>
+<p>type</p>
+<blockquote>
+  <pre>./configure</p>
+</pre>
+</blockquote>
+<p>in the top directory of IETL source tree. The <tt>configure</tt> script accepts several essential command-line options. See
+  <a href="#configure_options">Basic Configure Options</a> before executing the <tt>./configure</tt> command. By default the configuration scripts finds all the required libraries in all default locations of the system. The configuration options can also be seen on command-line by
+<p> <blockquote>
+<pre>./configure --help</pre></blockquote> 
+<p>After successful run of <tt>configure</tt> script (See the summary displayed after the run of <tt>configure</tt> script, whether it has found all required libraries or not), type
+<blockquote>
+  <pre>make
+make install</pre>
+</blockquote>
+</p>
+<p>to  build and install all the header files and libraries. To compile example files, type</p>
+<p><blockquote>
+  <pre>make example</pre>
+</blockquote></p>
+<h2><A name=configure_options id="configure_options"></A>Basic Configure Options</h2>
+<table width="100%"  border="1">
+  <tr>
+    <td width="50%">-h, --help</td>
+    <td width="50%">Shows all configuration options.</td>
+  </tr>
+  <tr>
+    <td>--prefix=PREFIX</td>
+    <td>Installation directories. By default it is [$HOME/ietl]. By default the 'make install' installs all the files in '$HOME/ietl/bin', '$HOME/ietl/lib' etc. Using '--prefix' one can replace the default directory '$HOME/ietl', e.g.: '--prefix==$HOME'. </td>
+  </tr>
+  <tr>
+    <td>--with-compiler=MODE</td>
+    <td>sets compiler mode (MODE = gnu, gnu-3.3, kai, intel, intel64, como, hp32, hp64, dec, sgi32, sgi64, cray, ibm, macos, macos-3.3, generic) </td>
+  </tr>
+  <tr>
+    <td>--with-blitz=DIR</td>
+    <td>path to the Blitz main tree. </td>
+  </tr>
+  <tr>
+    <td>--with-boost=DIR</td>
+    <td>path to the boost main tree. </td>
+  </tr>
+  <tr>
+    <td>--with-bindings=DIR</td>
+    <td>path to the uBlas bindings main tree. </td>
+  </tr>
+  <tr>
+    <td>--with-atlas=LIBS</td>
+    <td>ATLAS library.</td>
+  </tr>
+  <tr>
+    <td>--with-blas=LIBS</td>
+    <td>BLAS library. </td>
+  </tr>
+  <tr>
+    <td>--with-lapack=LIBS</td>
+    <td>LAPACK library. </td>
+  </tr>
+  <tr>
+    <td>--with-atlas-dir=DIR</td>
+    <td>ATLAS lib directory.</td>
+  </tr>
+  <tr>
+    <td>--with-blas-dir=DIR</td>
+    <td>BLAS lib directory. </td>
+  </tr>
+  <tr>
+    <td>--with-lapack-dir=DIR</td>
+    <td>LAPACK lib directory. </td>
+  </tr>
+</table>
+<p>Note: each <tt>--with</tt> option has the corresponding <tt>--without</tt> option.</p>
+<p>&nbsp;</p>
+<HR width="100%" SIZE=2>
+
+<DIV align=center>
+<ADDRESS>copyright 2002-2004 by <a href="http://www.itp.phys.ethz.ch/staff/troyer/">Matthias Troyer</a> and <a href="http://www.itp.phys.ethz.ch/staff/prakash/">Prakash 
+Dayal</a><BR>
+</ADDRESS></DIV>
+<p>&nbsp;</p>
+</BODY></HTML>

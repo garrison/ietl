@@ -1,0 +1,19 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0056)http://www.itp.phys.ethz.ch/staff/prakash/doc/blitz.html -->
+<HTML><HEAD><TITLE>IETL Documentation - interface/blitz.h</TITLE>
+<META http-equiv=content-type content="text/html; charset=ISO-8859-1">
+<META content="MSHTML 6.00.2800.1400" name=GENERATOR></HEAD>
+<BODY>
+<H1>IETL library: interface/blitz.h</H1>This header implements the functions 
+required for the IETL for Blitz++ arrays. Note that the <TT>mult</TT> function 
+for applying a liner operator (e.g. a Blitz++ stencil) still needs to be coded 
+by the user. See, e.g. the Schrödinger equation examples. 
+<UL></UL>
+<H3>Synopsis</H3><PRE>namespace ietl {<BR><BR>  template &lt;class C, class Gen&gt; <BR>  void generate(Cont&amp; c, Gen&amp; gen);<BR><BR>  template &lt;class T, int D&gt;<BR>  T dot(const blitz::Array&lt;T,D&gt;&amp; x, const blitz::Array&lt;T,D&gt;&amp; y);<BR><BR>  template &lt;class T, int D&gt;<BR>  T dot(const blitz::Array&lt;std::complex&lt;T&gt;,D&gt;&amp; x, const blitz::Array&lt;std::complex&lt;T&gt;,D&gt;&amp; y);<BR><BR>  template &lt;class T, int D&gt;<BR>  typename number_traits&lt;T&gt;::magnitude_type two_norm(const blitz::Array&lt;T,D&gt;&amp; v);<BR><BR>  template &lt;class T, int D&gt;<BR>  void copy(const blitz::Array&lt;T,D&gt;&amp; x, blitz::Array&lt;T,D&gt;&amp; y);<BR><BR>}<BR></PRE>
+<HR width="100%" SIZE=2>
+
+<DIV align=center>
+<ADDRESS>copyright 2002-2004 by <a href="http://www.itp.phys.ethz.ch/staff/troyer/">Matthias Troyer </a>and <a href="http://www.itp.phys.ethz.ch/staff/prakash/">Prakash 
+Dayal</a><BR>
+</ADDRESS></DIV><BR><BR>
+</BODY></HTML>

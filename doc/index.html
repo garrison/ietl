@@ -1,0 +1,115 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0046)http://www.itp.phys.ethz.ch/staff/prakash/doc/ -->
+<HTML><HEAD><TITLE>The Iterative Eigensolver Template Library</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1">
+<META content="MSHTML 6.00.2800.1400" name=GENERATOR><style type="text/css">
+<!--
+body {
+	background-image: url();
+}
+.style2 {color: #FF0000}
+-->
+</style></HEAD>
+<BODY>
+<H1 align="center">The IETL Project </H1>
+<h2 align="center">The <span class="style2">I</span>terative <span class="style2">E</span>igensolver <span class="style2">T</span>emplate <span class="style2">L</span>ibrary</h2>
+The Iterative Eigensolver Template Library (IETL) provides 
+generic high performance C++ library for iterative eigensolvers. The goal is to calculate 
+eigenvalues or eigenvectors of a linear eigenvalue equation:<BR>
+<BR>
+<DIV align=center>Av = lambda v<BR><BR>
+<DIV align=left>where A is a matrix, v an eigenvector, and lambda an eigenvalue. 
+For dense eigenvalue problems, the <A 
+href="http://www.netlib.org/lapack/">LAPACK library</A> provides the best 
+algorithms, while for sparse matrices iterative algorithms are favored if only a 
+few eigenvalues are desired. These <B>iterative algorithms</B> only require the 
+matrix in the form of a function to calculate matrix-vector products Av with 
+arbitrary vectors v. For sparse matrices this can often be done in a time 
+scaling with O(<I>N</I>) where <I>N</I> is the matrix dimension.<BR><BR>
+For the 
+similar problem of linear solvers, the iterative algorithms listed in the 
+templates book [<A 
+href="http://www.netlib.org/linalg/html_templates/Templates.html">1</A>] were 
+implemented in the <A href="http://www.osl.iu.edu/research/itl/">ITL</A> library. 
+The IETL aims at a similar goal for the much more complex eigensolver, by 
+providing generic C++ implementations of the algorithms in the corresponding 
+book for eigenvalue problems [<A 
+href="http://www.cs.ucdavis.edu/%7Ebai/ET/contents.html">2</A>].<BR>
+<H2>Algorithms in the IETL</H2>
+So far the following algorithms for <I>real 
+symmetric</I> and <I>complex hermitian</I> matrices have been implemented:<BR>
+<UL>
+  <LI><A href="power.html">Power 
+  method</A> 
+  <LI><A 
+  href="inverse.html">Inverse 
+  iteration</A> 
+  <LI><A 
+  href="rayleigh.html">Rayleigh 
+  quotients</A> 
+  <LI><A 
+  href="lanczos.html">Lanczos 
+  algorithm</A> without reorthogonalization in the formulation of Cullum and 
+  Willoughby [<A 
+  href="#Ref3">3,4</A>]<BR>
+</LI></UL></DIV></DIV>
+<H2>Prerequisites</H2>The IETL library requires a standard-conforming C++ 
+compiler and the following libraries:<BR>
+<UL>
+  <LI><A href="http://www.boost.org/">Boost release 1.31</A> 
+  <LI>For the Lanczos algorithm additionally the LAPACK and BLAS or ATLAS 
+  libraries 
+  <LI>For some of the examples the <A 
+  href="http://oonumerics.org/blitz/">Blitz++</A> library and <a href="http://www.comp-phys.org/software/ietl/">uBlas bindings</a>. <BR>
+  </LI>
+</UL>
+<H2>Download and Installation</H2>
+<p>The latest IETL release can be downloaded from 
+  <A 
+href="http://www.comp-phys.org/software/ietl/">http://www.comp-phys.org/software/ietl/</A></p>
+<p>The instruction to install can be found <a href="installation.html">here</a> .<BR>
+</p>
+<H2>Documentation</H2>Detailed documentation of the algorithms in the IETL 
+library can be found <A 
+href="doc.html">here</A>.<BR>
+Example implementations for all the algorithms are provided in the <TT>examples</TT> 
+directory and <a href="examples.html">here</a> the same can be found online..<BR>
+<H2>Support and mailing lists</H2>We offer the following mailing lists: 
+<UL>
+  <LI>Announcements of new releases: <A 
+  href="https://webmail.phys.ethz.ch/mailman/listinfo/comp-phys-ietl-announce">https://webmail.phys.ethz.ch/mailman/listinfo/comp-phys-ietl-announce</A> 
+
+  <LI>Discussion of the IETL libraries and its development: <A 
+  href="https://webmail.phys.ethz.ch/mailman/listinfo/comp-phys-ietl-devel">https://webmail.phys.ethz.ch/mailman/listinfo/comp-phys-ietl-devel</A> 
+  </LI></UL>
+For questions about the library please contact <A 
+href="mailto:ietl-support@comp-phys.org">mailto:ietl-support@comp-phys.org</A>. 
+<H2>Authors</H2>The IETL was developed by<BR>
+<UL>
+  <LI><A href="http://www.itp.phys.ethz.ch/staff/prakash/">Prakash Dayal</A> 
+  <LI><A href="http://www.itp.phys.ethz.ch/staff/troyer/">Matthias Troyer</A> 
+  <LI>Rene Villiger<BR></LI></UL>
+<H2>References</H2>
+<OL>
+  <LI><A name=Ref1></A>&nbsp;R. Barret, M. Berry, T.F. Chan, J. Demmel, J. 
+  Donato, J. Dongarra, V. Eijkhout, R. Pozo, C. Romine, and H. van der Vorst, 
+  <I>Templates for the Solution of Linear Systems: Building Blocks for Iterative 
+  Methods</I> (SIAM, 1993)<BR><BR>
+  <LI><A name=Ref2></A>Z. Bai, J. Demmel and J. Dongarra (Eds.), <I>Templates 
+  for the Solution of Algebraic Eigenvalue Problems: A Practical Guide</I> 
+  (SIAM, 2000)<BR><BR>
+  <LI><A name=Ref3></A>J. K. Cullum and R. A. Willoughby, <I>Computing 
+  eigenvalues of very large symmetric matrices-an implementation of a Lanczos 
+  algorithm with no reorthogonalization</I>, J. Comput. Phys., 44:329-358, 
+  1981.<BR><BR>
+  <LI><A name=Ref4></A>J. K. Cullum and R. A. Willoughby, <I>Lanczos algorithms 
+  for Large Symmetric Eigenvalue Computations. Volume 1, Theory</I> (Birkhäuser, 
+  Boston 1985). </LI></OL>
+<HR width="100%" SIZE=2>
+
+<DIV align=center>
+<ADDRESS>copyright 2002-2004 by <a href="http://www.itp.phys.ethz.ch/staff/troyer/">Matthias Troyer</a> and <a href="http://www.itp.phys.ethz.ch/staff/prakash/">Prakash 
+Dayal</a><BR>
+</ADDRESS></DIV>
+<p>&nbsp;</p>
+</BODY></HTML>

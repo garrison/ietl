@@ -27,8 +27,13 @@ namespace ietl {
     class vectorspace {
     public:
     typedef V vector_type;
+#ifdef IETL_INTERFACE_EIGEN3_H
+    typedef typename V::Scalar scalar_type;
+    typedef typename V::Index size_type;
+#else
     typedef typename V::value_type scalar_type;
     typedef typename V::size_type size_type;
+#endif
     
     vectorspace(size_type n):n_(n){}
     
